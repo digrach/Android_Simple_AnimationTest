@@ -2,7 +2,6 @@ package rach.dig.android_animationtest;
 
 import java.util.List;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,32 +10,22 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 public class MyParticleThread extends Thread {
-    
-	private ParticleManager particleMangager;
+
+	private int canvasWidth;
+	private int canvasHeight;
+	private ParticleManager particleManager;
 	private SurfaceHolder holder;
 
 	private int countDownTillNextParticle = 5;
 	private boolean running = false;  
 	private final int refresh_rate=16;    
-	private Context context;
-	
-	public MyParticleThread(SurfaceHolder holder, Context context, ParticleManager particleManager) {  
+
+
+
+	public MyParticleThread(SurfaceHolder holder) {  
 		Log.d("------------ > MyParticleThread ", " construct");
 		this.holder = holder;  
-		this.context = context;
-		this.particleMangager = particleManager;
 	}  
-
-//	public MyParticleThread(SurfaceHolder holder, Context context) {  
-//		Log.d("------------ > MyParticleThread ", " construct");
-//		this.holder = holder;  
-//		this.context = context;
-//	}  
-
-//	public void setParticleManager() {  
-//		((AppSettingz)context.getApplicationContext()).initialiseParticleManager();
-//		particleMangager = ((AppSettingz)context.getApplicationContext()).getParticleManager();
-//	}  
 
 	@Override  
 	public void run() { 
@@ -49,10 +38,7 @@ public class MyParticleThread extends Thread {
 				canvas = holder.lockCanvas();  
 
 				synchronized (holder) {  
-					int width = ((AppSettingz)context.getApplicationContext()).getOrientationManager().getCurrentWidth();
-					int height = ((AppSettingz)context.getApplicationContext()).getOrientationManager().getCurrentHeight();
-
-					draw(canvas,particleMangager.updateAllParticles(width,height));           
+					draw(canvas,particleManager.updateAllParticles());           
 				}  
 			}  
 			finally {  
@@ -68,7 +54,7 @@ public class MyParticleThread extends Thread {
 
 			if (countDownTillNextParticle == 0) {
 				countDownTillNextParticle = 5 + (int)(Math.random()*15);
-				particleMangager.addParticle();
+				particleManager.addParticle();
 			}
 			countDownTillNextParticle --;
 
@@ -88,6 +74,14 @@ public class MyParticleThread extends Thread {
 					(float)p.getSize(),  
 					paint);  
 		}  
+	}
+
+
+
+	public void setSurfaceSize(int width, int height) {
+		canvasWidth = width;
+		canvasHeight = height;
+		particleManager = new ParticleManager(canvasWidth,canvasHeight);
 	}
 
 	public void setRunning(boolean running) {

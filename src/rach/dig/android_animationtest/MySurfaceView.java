@@ -8,15 +8,16 @@ import android.view.SurfaceView;
 
 public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
+	private SurfaceHolder holder;
 	private MyParticleThread myParticleThread;
-	private Context context;
 
 
 	public MySurfaceView(Context context) {
 		super(context);
 		Log.d(">>>>>>>>>>>>>>>>","MySurfaceView.construct");
-		this.context = context;
-		getHolder().addCallback(this);
+		
+		holder = getHolder();
+		holder.addCallback(this);
 	}
 
 	public void resume() { 
@@ -45,19 +46,15 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 		Log.d(">>>>>>>>>>>>>>>>","MySurfaceView.surfaceChanged");
-		
-		((AppSettingz)context.getApplicationContext()).setOrientationDimensions(width, height);
 
-		if (myParticleThread==null) {  
-			Log.d(">>>>>>>>>>>>>>>>","MySurfaceView.surfaceChanged creating new myParticleThread");
-			
-			((AppSettingz)context.getApplicationContext()).initialiseParticleManager();
-			ParticleManager particleMangager = ((AppSettingz)context.getApplicationContext()).getParticleManager();
-			
-			myParticleThread = new MyParticleThread(holder,this.getContext(), particleMangager);  
+		if (myParticleThread==null){  
+			myParticleThread = new MyParticleThread(holder);  
 			myParticleThread.setRunning(true);  
+			myParticleThread.setSurfaceSize(width, height);  
 			myParticleThread.start();  
 		}  
+
+
 	}
 
 	@Override

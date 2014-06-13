@@ -1,3 +1,5 @@
+// Rachael Colley 2014
+
 package rach.dig.android_animationtest;
 
 import android.app.Activity;
@@ -55,7 +57,6 @@ public class MainActivity extends Activity {
 		super.onDestroy();
 		Log.d(">>>>>>>>>>>>>>>>","MainActivity.onDestroy");
 	}
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

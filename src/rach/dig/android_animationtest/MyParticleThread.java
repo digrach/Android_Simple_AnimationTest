@@ -1,3 +1,5 @@
+// Rachael Colley 2014
+
 package rach.dig.android_animationtest;
 
 import java.util.List;

@@ -1,3 +1,5 @@
+// Rachael Colley 2014
+
 package rach.dig.android_animationtest;
 
 
@@ -6,8 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import android.util.Log;
-
 public class ParticleManager {
 
 	private List<Particle> particles = new ArrayList<Particle>();
@@ -15,7 +15,7 @@ public class ParticleManager {
 
 	private int spawnFieldWidth;
 	private int spawnFieldHeight;
-	
+
 
 	public ParticleManager(int spawnFieldWidth, int spawnFieldHeight) {
 		this.spawnFieldWidth = spawnFieldWidth;
@@ -28,7 +28,7 @@ public class ParticleManager {
 		int randomy = r.nextInt((int) (spawnFieldHeight +1));
 		int randomTargetx = r.nextInt((int) (spawnFieldWidth +1));
 		int randomTargety = r.nextInt((int) (spawnFieldHeight +1));
-		Particle p = new Particle(randomx, randomy, randomTargetx, randomTargety, spawnFieldWidth, spawnFieldHeight);
+		Particle p = new Particle(randomx, randomy, randomTargetx, randomTargety);
 		particles.add(p);
 	}
 
@@ -45,7 +45,7 @@ public class ParticleManager {
 		Iterator<Particle> i = particles.iterator();
 		while (i.hasNext()) {
 			Particle p = i.next();
-			p.update(spawnFieldWidth, spawnFieldHeight);
+			p.update();
 
 			if (checkList[(int)p.getPosY()] == null) {
 				checkList[(int)p.getPosY()] = new ArrayList<Particle>();
